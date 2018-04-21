@@ -1,0 +1,1 @@
+sysbench     ansible_user=root ansible_host=172.16.192.131 mysql_host=127.0.0.1 mysql_port=3306 mysql_user=root mysql_password=mtls0352 mysql_tables=16 mysql_table_rows=1000 time=20 sysbench_max_threads=64

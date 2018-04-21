@@ -1,0 +1,25 @@
+---
+- hosts: sysbench
+  vars:
+   #mysql_host: 127.0.0.1
+   #mysql_port: 3306
+   #mysql_user: root
+   #mysql_password: mtls0352
+   #mysql_tables: 16
+   #mysql_table_rows: 10000000
+   #time: 20
+   #sysbench_max_threads: 64
+  tasks:
+   - name: restart mysql server
+     when: ansible_distribution_major_version == "7"
+     systemd:
+      name: mysql
+      state: restarted
+      daemon_reload: yes 
+
+   - name: sleep 15's
+     shell: sleep 15    
+
+   - name: run prepare
+     shell: /usr/local/sysbench/bin/sysbench --mysql-host={{ mysql_host }} --mysql-port={{ mysql_port }} --mysql-user={{ mysql_user }} --mysql-password={{ mysql_password }} --tables={{ mysql_tables }} --table_size={{ mysql_table_rows }} --threads={{mysql_tables}} --mysql-db=tempdb oltp_insert prepare
+     
