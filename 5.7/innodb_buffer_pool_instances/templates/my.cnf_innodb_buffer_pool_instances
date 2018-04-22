@@ -67,9 +67,8 @@ rpl_semi_sync_slave_enabled         =1                             #    0
 rpl_semi_sync_master_timeout        =1000                          #    1000(1 second)
 plugin_load_add                     =semisync_master.so            #
 plugin_load_add                     =semisync_slave.so             #
-binlog_group_commit_sync_delay      =500                          #    500(0.05%秒)、默认值0
-binlog_group_commit_sync_no_delay_count = 13                        #    0
-
+binlog_group_commit_sync_delay      =0                             #    500(0.05%秒)、默认值0
+binlog_group_commit_sync_no_delay_count =0                         #    0
 
 ####: for innodb
 default_storage_engine                          =innodb                     #   innodb
@@ -94,8 +93,8 @@ innodb_deadlock_detect                          =on                         #   
 innodb_lock_wait_timeout                        =50                         #   50
 innodb_spin_wait_delay                          =6                          #   6
 innodb_autoinc_lock_mode                        =2                          #   1
-innodb_io_capacity                              =200                        #   200
-innodb_io_capacity_max                          =2000                       #   2000
+innodb_io_capacity                              ={{innodb_io_capacity}}                        #   200
+innodb_io_capacity_max                          ={{innodb_io_capacity_max}}                       #   2000
 #--------Persistent Optimizer Statistics
 innodb_stats_auto_recalc                        =on                         #   on
 innodb_stats_persistent                         =on                         #   on

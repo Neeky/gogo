@@ -1,17 +1,8 @@
 ---
-- hosts: sysbench
+- hosts: master
   vars:
-   #mysql_host: 127.0.0.1
-   #mysql_port: 3306
-   #mysql_user: root
-   #mysql_password: mtls0352
-   #mysql_tables: 16
-   #mysql_table_rows: 10000000
-   #time: 20
-   #sysbench_max_threads: 64
    variable_name: innodb_buffer_pool_size
    variable_value: 512M
-
 
   tasks:
    - name: config /etc/my.cnf
@@ -26,8 +17,14 @@
       state: restarted
       daemon_reload: yes 
 
-   - name: sleep 15's
-     shell: sleep 15    
+- hosts: sysbench
+  vars:
+   variable_name: innodb_buffer_pool_size
+   variable_value: 512M
+
+  tasks:
+   - name: sleep 5's
+     shell: sleep 5    
 
    - name: run sysbench
      when: item.threads <=sysbench_max_threads
