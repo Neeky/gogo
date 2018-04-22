@@ -1,13 +1,13 @@
 ---
 - hosts: master
   vars:
-   variable_name: innodb_buffer_pool_size
-   variable_value: 1G
+   variable_name: innodb_log_files_in_group
+   variable_value: 8
 
   tasks:
    - name: config /etc/my.cnf
      template:
-      src: templates/my.cnf_innodb_buffer_pool_size
+      src: templates/my.cnf_innodb_log_files_in_group
       dest: /etc/my.cnf
 
    - name: restart mysql server
@@ -19,8 +19,8 @@
 
 - hosts: sysbench
   vars:
-   variable_name: innodb_buffer_pool_size
-   variable_value: 1G
+   variable_name: innodb_log_files_in_group
+   variable_value: 8
 
   tasks:
    - name: sleep 5's

@@ -67,8 +67,7 @@ rpl_semi_sync_slave_enabled         =1                             #    0
 rpl_semi_sync_master_timeout        =1000                          #    1000(1 second)
 plugin_load_add                     =semisync_master.so            #
 plugin_load_add                     =semisync_slave.so             #
-binlog_group_commit_sync_delay      =0                             #    500(0.05%秒)、默认值0
-binlog_group_commit_sync_no_delay_count =0                         #    0
+
 
 ####: for innodb
 default_storage_engine                          =innodb                     #   innodb
@@ -77,8 +76,8 @@ innodb_data_file_path                           =ibdata1:64M:autoextend     #   
 innodb_temp_data_file_path                      =ibtmp1:12M:autoextend      #   ibtmp1:12M:autoextend
 innodb_buffer_pool_filename                     =ib_buffer_pool             #   ib_buffer_pool
 innodb_log_group_home_dir                       =./                         #   ./
-innodb_log_files_in_group                       =8                          #   2
-innodb_log_file_size                            =128M                        #  50331648(48M)
+innodb_log_files_in_group                       ={{variable_value}}                          #   2
+innodb_log_file_size                            =48M                        #  50331648(48M)
 innodb_file_per_table                           =on                         #   on
 innodb_online_alter_log_max_size                =128M                  #   134217728(128M)
 innodb_open_files                               =65535                       #   2000
@@ -99,7 +98,7 @@ innodb_io_capacity_max                          ={{innodb_io_capacity_max}}     
 innodb_stats_auto_recalc                        =on                         #   on
 innodb_stats_persistent                         =on                         #   on
 innodb_stats_persistent_sample_pages            =20                         #   20
-innodb_buffer_pool_instances                    ={{variable_value}}
+innodb_buffer_pool_instances                    =3
 innodb_adaptive_hash_index                      =on                         #   on
 innodb_change_buffering                         =all                        #   all
 innodb_change_buffer_max_size                   =25                         #   25

@@ -1,13 +1,15 @@
 ---
 - hosts: master
   vars:
-   variable_name: innodb_buffer_pool_size
-   variable_value: 1G
+   innodb_io_capacity: 200
+   innodb_io_capacity_max: 2000
+   variable_name: innodb_io_capacity
+   variable_value: 200
 
   tasks:
    - name: config /etc/my.cnf
      template:
-      src: templates/my.cnf_innodb_buffer_pool_size
+      src: templates/my.cnf_innodb_io_capacity
       dest: /etc/my.cnf
 
    - name: restart mysql server
@@ -19,8 +21,10 @@
 
 - hosts: sysbench
   vars:
-   variable_name: innodb_buffer_pool_size
-   variable_value: 1G
+   innodb_io_capacity: 200
+   innodb_io_capacity_max: 2000
+   variable_name: innodb_io_capacity
+   variable_value: 200
 
   tasks:
    - name: sleep 5's

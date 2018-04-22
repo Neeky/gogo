@@ -22,7 +22,7 @@ lower_case_table_names              =1                              #   0
 secure_file_priv                    =                               #   null
 open_files_limit                    =65536                          #   1024
 max_connections                     =256                            #   151
-thread_cache_size                   =256                              #   9
+thread_cache_size                   ={{variable_value}}                              #   9
 table_open_cache                    =4096                           #   2000
 table_definition_cache              =2000                           #   1400
 table_open_cache_instances          =32                             #   16
@@ -67,8 +67,7 @@ rpl_semi_sync_slave_enabled         =1                             #    0
 rpl_semi_sync_master_timeout        =1000                          #    1000(1 second)
 plugin_load_add                     =semisync_master.so            #
 plugin_load_add                     =semisync_slave.so             #
-binlog_group_commit_sync_delay      =0                             #    500(0.05%秒)、默认值0
-binlog_group_commit_sync_no_delay_count =0                         #    0
+
 
 ####: for innodb
 default_storage_engine                          =innodb                     #   innodb
@@ -99,7 +98,7 @@ innodb_io_capacity_max                          ={{innodb_io_capacity_max}}     
 innodb_stats_auto_recalc                        =on                         #   on
 innodb_stats_persistent                         =on                         #   on
 innodb_stats_persistent_sample_pages            =20                         #   20
-innodb_buffer_pool_instances                    ={{variable_value}}
+innodb_buffer_pool_instances                    =3
 innodb_adaptive_hash_index                      =on                         #   on
 innodb_change_buffering                         =all                        #   all
 innodb_change_buffer_max_size                   =25                         #   25

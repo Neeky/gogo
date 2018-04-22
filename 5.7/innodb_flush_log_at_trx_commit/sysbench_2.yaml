@@ -1,13 +1,13 @@
 ---
 - hosts: master
   vars:
-   variable_name: innodb_buffer_pool_size
-   variable_value: 1G
+   variable_name: innodb_flush_log_at_trx_commit
+   variable_value: 2
 
   tasks:
    - name: config /etc/my.cnf
      template:
-      src: templates/my.cnf_innodb_buffer_pool_size
+      src: templates/my.cnf_innodb_flush_log_at_trx_commit
       dest: /etc/my.cnf
 
    - name: restart mysql server
@@ -19,8 +19,8 @@
 
 - hosts: sysbench
   vars:
-   variable_name: innodb_buffer_pool_size
-   variable_value: 1G
+   variable_name: innodb_flush_log_at_trx_commit
+   variable_value: 2
 
   tasks:
    - name: sleep 5's
