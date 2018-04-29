@@ -13,9 +13,7 @@ memory_size_gb=4
 cpu_cores=2
 disk_size_gb=500
 is_ssd_disk=yes
-mysql_release=mysql-5.7.22
+mysql_release=mysql-8.0.11
 instances=1
-
-
 
 

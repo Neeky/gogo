@@ -26,6 +26,7 @@ thread_cache_size                   ={{variable_value}}                         
 table_open_cache                    =4096                           #   2000
 table_definition_cache              =2000                           #   1400
 table_open_cache_instances          =32                             #   16
+max_prepared_stmt_count             =65535                          #   16382
 
 ####: for binlog
 binlog_format                       =row                          #     row
