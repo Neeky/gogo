@@ -9,8 +9,9 @@ basedir                             =/usr/local/mysql/              #   /usr/loc
 datadir                             =/database/mysql/data/3306      #   /usr/local/mysql/data
 server_id                           =457                            #   0
 port                                =3306                           #   3306
-character_set_server                =utf8                           #   utf8mb4
+character_set_server                =utf8                           #   latin1
 log_bin_trust_function_creators     =on                             #   0
+explicit_defaults_for_timestamp     =off                            #    off
 log_timestamps                      =system                         #   utc
 socket                              =/tmp/mysql.sock                #   /tmp/mysql.sock
 read_only                           =0                              #   off
@@ -19,23 +20,23 @@ auto_increment_increment            =1                              #   1
 auto_increment_offset               =1                              #   1
 lower_case_table_names              =1                              #   0
 secure_file_priv                    =                               #   null
-open_files_limit                    =65536                          #   8161
-max_connections                     =256                            #   151
+open_files_limit                    =65536                          #   1024
+max_connections                     =1024                            #   151
 thread_cache_size                   =256                              #   9
 table_open_cache                    =4096                           #   2000
 table_definition_cache              =2000                           #   1400
 table_open_cache_instances          =32                             #   16
 
 ####: for binlog
-binlog_format                       =row                            #     row
+binlog_format                       =row                          #     row
 log_bin                             =mysql-bin                      #   off
 binlog_rows_query_log_events        =on                             #   off
 log_slave_updates                   =on                             #   off
-binlog_expire_logs_seconds          =604800                         #   0 (604800 equal 7day)
-binlog_cache_size                   =65536                          #   32768(64k)
+expire_logs_days                    =7                              #   0
+binlog_cache_size                   =65536                          #   65536(64k)
 binlog_checksum                     =none                           #   CRC32
 sync_binlog                         =1                              #   1
-slave_preserve_commit_order         =ON                             #   off  
+slave-preserve-commit-order         =ON                             #   
 
 ####: for error-log
 log_error                           =err.log                        #   /usr/local/mysql/data/localhost.localdomain.err
@@ -46,7 +47,7 @@ general_log_file                    =general.log                    #   hostname
 ####: for slow query log
 slow_query_log                      =on                             #    off
 slow_query_log_file                 =slow.log                       #    hostname.log
-log_queries_not_using_indexes       =off                            #    off
+log_queries_not_using_indexes       =on                             #    off
 long_query_time                     =2.000000                       #    10.000000
 
 ####: for gtid
@@ -66,8 +67,6 @@ rpl_semi_sync_slave_enabled         =1                             #    0
 rpl_semi_sync_master_timeout        =1000                          #    1000(1 second)
 plugin_load_add                     =semisync_master.so            #
 plugin_load_add                     =semisync_slave.so             #
-binlog_group_commit_sync_delay      =0                             #    500(0.05%秒)、默认值0
-binlog_group_commit_sync_no_delay_count =0                         #    0
 
 
 ####: for innodb
@@ -78,10 +77,10 @@ innodb_temp_data_file_path                      =ibtmp1:12M:autoextend      #   
 innodb_buffer_pool_filename                     =ib_buffer_pool             #   ib_buffer_pool
 innodb_log_group_home_dir                       =./                         #   ./
 innodb_log_files_in_group                       =8                          #   2
-innodb_log_file_size                            =128M                       #  50331648(48M)
+innodb_log_file_size                            =128M                        #  50331648(48M)
 innodb_file_per_table                           =on                         #   on
-innodb_online_alter_log_max_size                =128M                       #   134217728(128M)
-innodb_open_files                               =65535                      #   4000
+innodb_online_alter_log_max_size                =128M                  #   134217728(128M)
+innodb_open_files                               =65535                       #   2000
 innodb_page_size                                =16k                        #   16384(16k)
 innodb_thread_concurrency                       =0                          #   0
 innodb_read_io_threads                          =4                          #   4
@@ -92,20 +91,15 @@ innodb_print_all_deadlocks                      =on                         #   
 innodb_deadlock_detect                          =on                         #   on
 innodb_lock_wait_timeout                        =50                         #   50
 innodb_spin_wait_delay                          =6                          #   6
-innodb_autoinc_lock_mode                        =2                          #   2
-innodb_io_capacity                              =200                        #   200
-innodb_io_capacity_max                          =2000                       #   2000
+innodb_autoinc_lock_mode                        =2                          #   1
+innodb_io_capacity                              ={{innodb_io_capacity}}                        #   200
+innodb_io_capacity_max                          ={{innodb_io_capacity_max}}                       #   2000
 #--------Persistent Optimizer Statistics
 innodb_stats_auto_recalc                        =on                         #   on
 innodb_stats_persistent                         =on                         #   on
 innodb_stats_persistent_sample_pages            =20                         #   20
-{# --                 set innodb_buffer_pool_instances                                 -- #}
-{% if ((ansible_memtotal_mb * 0.6 // 1024) | int ) < 64  %}
-innodb_buffer_pool_instances                    ={{ [ ((ansible_memtotal_mb * 0.6 // 1024) | int ) , 1 ] | max }}
-{% else %}
-innodb_buffer_pool_instances                    =64
-{% endif %}
-{# --                 set innodb_buffer_pool_instances                                 -- #}
+innodb_buffer_pool_instances                    =3
+innodb_adaptive_flushing                        ={{variable_value}}
 innodb_adaptive_hash_index                      =on                         #   on
 innodb_change_buffering                         =all                        #   all
 innodb_change_buffer_max_size                   =25                         #   25
@@ -115,7 +109,7 @@ innodb_doublewrite                              =on                         #   
 innodb_log_buffer_size                          =128M                        #  16777216(16M)
 innodb_flush_log_at_timeout                     =1                          #   1
 innodb_flush_log_at_trx_commit                  =1                          #   1
-innodb_buffer_pool_size                         =2304M                  #       134217728(128M)
+innodb_buffer_pool_size                         =3G                  #       134217728(128M)
 autocommit                                      =1                          #   1
 #--------innodb scan resistant
 innodb_old_blocks_pct                           =37                         #    37
