@@ -1,2 +1,2 @@
-sysbench     ansible_user=root ansible_host=172.16.192.131 mysql_host=127.0.0.1 mysql_port=3306 mysql_user=root mysql_password=mtls0352 mysql_tables=16 mysql_table_rows=1000 time=20 sysbench_max_threads=64 sysbench_min_threads=1 sysbench_thread_setp=4
+sysbench     ansible_user=root ansible_host=172.16.192.131 mysql_host=127.0.0.1 mysql_port=3306 mysql_user=root mysql_password=mtls0352 mysql_tables=16 mysql_table_rows=1000 time=20 sysbench_max_threads=64 sysbench_min_threads=1 sysbench_thread_setp=4 types=oltp_insert,oltp_read_write
 master       ansible_user=root ansible_host=172.16.192.131 innodb_io_capacity=200 innodb_io_capacity_max=2000

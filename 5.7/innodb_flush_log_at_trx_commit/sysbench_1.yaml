@@ -27,7 +27,7 @@
      shell: sleep 5    
 
    - name: run sysbench
-     when: item.threads <=sysbench_max_threads and item.threads >=sysbench_min_threads and item.threads % sysbench_thread_setp == 0 or item.threads==1 
+     when: (benchtypes.find(item.benchtype) != -1 and item.threads <=sysbench_max_threads and item.threads >=sysbench_min_threads and item.threads % sysbench_thread_setp == 0 ) or ( benchtypes.find(item.benchtype) != -1 and item.threads==1 )
      shell: /usr/local/sysbench/bin/sysbench --mysql-host={{ mysql_host }} --mysql-port={{ mysql_port }} --mysql-user={{ mysql_user }} --mysql-password={{ mysql_password }} --tables={{ mysql_tables }} --table_size={{ mysql_table_rows }} --mysql-db=tempdb --time={{time}} --threads={{item.threads}} {{item.benchtype}} run > /tmp/gogo/{{item.benchtype}}#{{variable_name}}#{{variable_value}}#{{item.threads}}.log
      loop: 
       - { benchtype: 'oltp_delete', threads: 512 }
