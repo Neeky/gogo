@@ -1,0 +1,11 @@
+---
+- hosts: sqlstudio
+
+  vars_files:
+    - ./benchs.yaml
+
+  tasks:
+   - name: print {{item}}
+     debug:
+      msg: "{{item}}"
+     loop: "{{ benchs }}"

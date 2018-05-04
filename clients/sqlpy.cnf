@@ -1,5 +1,5 @@
 [default]
-host=http://127.0.0.1:8080
+host=http://www.sqlpy.com
 oltps-add=%(host)s/mysqlz/oltps/add
 environments-add=%(host)s/mysqlz/environments/add
 variables-add=%(host)s/mysqlz/variables/add
@@ -13,7 +13,7 @@ memory_size_gb=4
 cpu_cores=2
 disk_size_gb=500
 is_ssd_disk=yes
-mysql_release=mysql-8.0.11
+mysql_release=mysql-5.7.22
 instances=1
 
 
