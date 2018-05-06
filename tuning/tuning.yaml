@@ -9,144 +9,20 @@
       daemon_reload: yes 
 
 - hosts: sysbench
+  vars_files:
+   - ../benchs.yaml
   vars:
    variable_name: tuning
    variable_value: 0
+   sysbench_thread_setp: 8
+   sysbench_max_threads: 16
+   sysbench_min_threads: 8
 
   tasks:
    - name: sleep 5's
      shell: sleep 5    
 
    - name: run sysbench
-     when: (item.threads <=sysbench_max_threads and item.threads >=sysbench_min_threads and item.threads % sysbench_thread_setp == 0 ) or ( item.threads==1 ) 
+     when: (item.benchtype =='oltp_read_write' and item.threads <=sysbench_max_threads and item.threads >=sysbench_min_threads and item.threads % sysbench_thread_setp == 0 ) or ( item.benchtype =='oltp_read_write' and item.threads==1 )  
      shell: /usr/local/sysbench/bin/sysbench --mysql-host={{ mysql_host }} --mysql-port={{ mysql_port }} --mysql-user={{ mysql_user }} --mysql-password={{ mysql_password }} --tables={{ mysql_tables }} --table_size={{ mysql_table_rows }} --mysql-db=tempdb --time={{time}} --threads={{item.threads}} {{item.benchtype}} run > /tmp/gogo/{{item.benchtype}}#{{variable_name}}#{{variable_value}}#{{item.threads}}.log
-     loop: 
-      - { benchtype: 'oltp_read_write', threads: 512 }
-      - { benchtype: 'oltp_read_write', threads: 508 }
-      - { benchtype: 'oltp_read_write', threads: 504 }
-      - { benchtype: 'oltp_read_write', threads: 500 }
-      - { benchtype: 'oltp_read_write', threads: 496 }
-      - { benchtype: 'oltp_read_write', threads: 492 }
-      - { benchtype: 'oltp_read_write', threads: 488 }
-      - { benchtype: 'oltp_read_write', threads: 484 }
-      - { benchtype: 'oltp_read_write', threads: 480 }
-      - { benchtype: 'oltp_read_write', threads: 476 }
-      - { benchtype: 'oltp_read_write', threads: 472 }
-      - { benchtype: 'oltp_read_write', threads: 468 }
-      - { benchtype: 'oltp_read_write', threads: 464 }
-      - { benchtype: 'oltp_read_write', threads: 460 }
-      - { benchtype: 'oltp_read_write', threads: 456 }
-      - { benchtype: 'oltp_read_write', threads: 452 }
-      - { benchtype: 'oltp_read_write', threads: 448 }
-      - { benchtype: 'oltp_read_write', threads: 444 }
-      - { benchtype: 'oltp_read_write', threads: 440 }
-      - { benchtype: 'oltp_read_write', threads: 436 }
-      - { benchtype: 'oltp_read_write', threads: 432 }
-      - { benchtype: 'oltp_read_write', threads: 428 }
-      - { benchtype: 'oltp_read_write', threads: 424 }
-      - { benchtype: 'oltp_read_write', threads: 420 }
-      - { benchtype: 'oltp_read_write', threads: 416 }
-      - { benchtype: 'oltp_read_write', threads: 412 }
-      - { benchtype: 'oltp_read_write', threads: 408 }
-      - { benchtype: 'oltp_read_write', threads: 404 }
-      - { benchtype: 'oltp_read_write', threads: 400 }
-      - { benchtype: 'oltp_read_write', threads: 396 }
-      - { benchtype: 'oltp_read_write', threads: 392 }
-      - { benchtype: 'oltp_read_write', threads: 388 }
-      - { benchtype: 'oltp_read_write', threads: 384 }
-      - { benchtype: 'oltp_read_write', threads: 380 }
-      - { benchtype: 'oltp_read_write', threads: 376 }
-      - { benchtype: 'oltp_read_write', threads: 372 }
-      - { benchtype: 'oltp_read_write', threads: 368 }
-      - { benchtype: 'oltp_read_write', threads: 364 }
-      - { benchtype: 'oltp_read_write', threads: 360 }
-      - { benchtype: 'oltp_read_write', threads: 356 }
-      - { benchtype: 'oltp_read_write', threads: 352 }
-      - { benchtype: 'oltp_read_write', threads: 348 }
-      - { benchtype: 'oltp_read_write', threads: 344 }
-      - { benchtype: 'oltp_read_write', threads: 340 }
-      - { benchtype: 'oltp_read_write', threads: 336 }
-      - { benchtype: 'oltp_read_write', threads: 332 }
-      - { benchtype: 'oltp_read_write', threads: 328 }
-      - { benchtype: 'oltp_read_write', threads: 324 }
-      - { benchtype: 'oltp_read_write', threads: 320 }
-      - { benchtype: 'oltp_read_write', threads: 316 }
-      - { benchtype: 'oltp_read_write', threads: 312 }
-      - { benchtype: 'oltp_read_write', threads: 308 }
-      - { benchtype: 'oltp_read_write', threads: 304 }
-      - { benchtype: 'oltp_read_write', threads: 300 }
-      - { benchtype: 'oltp_read_write', threads: 296 }
-      - { benchtype: 'oltp_read_write', threads: 292 }
-      - { benchtype: 'oltp_read_write', threads: 288 }
-      - { benchtype: 'oltp_read_write', threads: 284 }
-      - { benchtype: 'oltp_read_write', threads: 280 }
-      - { benchtype: 'oltp_read_write', threads: 276 }
-      - { benchtype: 'oltp_read_write', threads: 272 }
-      - { benchtype: 'oltp_read_write', threads: 268 }
-      - { benchtype: 'oltp_read_write', threads: 264 }
-      - { benchtype: 'oltp_read_write', threads: 260 }
-      - { benchtype: 'oltp_read_write', threads: 256 }
-      - { benchtype: 'oltp_read_write', threads: 252 }
-      - { benchtype: 'oltp_read_write', threads: 248 }
-      - { benchtype: 'oltp_read_write', threads: 244 }
-      - { benchtype: 'oltp_read_write', threads: 240 }
-      - { benchtype: 'oltp_read_write', threads: 236 }
-      - { benchtype: 'oltp_read_write', threads: 232 }
-      - { benchtype: 'oltp_read_write', threads: 228 }
-      - { benchtype: 'oltp_read_write', threads: 224 }
-      - { benchtype: 'oltp_read_write', threads: 220 }
-      - { benchtype: 'oltp_read_write', threads: 216 }
-      - { benchtype: 'oltp_read_write', threads: 212 }
-      - { benchtype: 'oltp_read_write', threads: 208 }
-      - { benchtype: 'oltp_read_write', threads: 204 }
-      - { benchtype: 'oltp_read_write', threads: 200 }
-      - { benchtype: 'oltp_read_write', threads: 196 }
-      - { benchtype: 'oltp_read_write', threads: 192 }
-      - { benchtype: 'oltp_read_write', threads: 188 }
-      - { benchtype: 'oltp_read_write', threads: 184 }
-      - { benchtype: 'oltp_read_write', threads: 180 }
-      - { benchtype: 'oltp_read_write', threads: 176 }
-      - { benchtype: 'oltp_read_write', threads: 172 }
-      - { benchtype: 'oltp_read_write', threads: 168 }
-      - { benchtype: 'oltp_read_write', threads: 164 }
-      - { benchtype: 'oltp_read_write', threads: 160 }
-      - { benchtype: 'oltp_read_write', threads: 156 }
-      - { benchtype: 'oltp_read_write', threads: 152 }
-      - { benchtype: 'oltp_read_write', threads: 148 }
-      - { benchtype: 'oltp_read_write', threads: 144 }
-      - { benchtype: 'oltp_read_write', threads: 140 }
-      - { benchtype: 'oltp_read_write', threads: 136 }
-      - { benchtype: 'oltp_read_write', threads: 132 }
-      - { benchtype: 'oltp_read_write', threads: 128 }
-      - { benchtype: 'oltp_read_write', threads: 124 }
-      - { benchtype: 'oltp_read_write', threads: 120 }
-      - { benchtype: 'oltp_read_write', threads: 116 }
-      - { benchtype: 'oltp_read_write', threads: 112 }
-      - { benchtype: 'oltp_read_write', threads: 108 }
-      - { benchtype: 'oltp_read_write', threads: 104 }
-      - { benchtype: 'oltp_read_write', threads: 100 }
-      - { benchtype: 'oltp_read_write', threads: 96 }
-      - { benchtype: 'oltp_read_write', threads: 92 }
-      - { benchtype: 'oltp_read_write', threads: 88 }
-      - { benchtype: 'oltp_read_write', threads: 84 }
-      - { benchtype: 'oltp_read_write', threads: 80 }
-      - { benchtype: 'oltp_read_write', threads: 76 }
-      - { benchtype: 'oltp_read_write', threads: 72 }
-      - { benchtype: 'oltp_read_write', threads: 68 }
-      - { benchtype: 'oltp_read_write', threads: 64 }
-      - { benchtype: 'oltp_read_write', threads: 60 }
-      - { benchtype: 'oltp_read_write', threads: 56 }
-      - { benchtype: 'oltp_read_write', threads: 52 }
-      - { benchtype: 'oltp_read_write', threads: 48 }
-      - { benchtype: 'oltp_read_write', threads: 44 }
-      - { benchtype: 'oltp_read_write', threads: 40 }
-      - { benchtype: 'oltp_read_write', threads: 36 }
-      - { benchtype: 'oltp_read_write', threads: 32 }
-      - { benchtype: 'oltp_read_write', threads: 28 }
-      - { benchtype: 'oltp_read_write', threads: 24 }
-      - { benchtype: 'oltp_read_write', threads: 20 }
-      - { benchtype: 'oltp_read_write', threads: 16 }
-      - { benchtype: 'oltp_read_write', threads: 12 }
-      - { benchtype: 'oltp_read_write', threads: 8 }
-      - { benchtype: 'oltp_read_write', threads: 4 }
-      - { benchtype: 'oltp_read_write', threads: 1 }
+     loop: "{{benchs}}"

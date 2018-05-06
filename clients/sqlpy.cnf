@@ -1,10 +1,11 @@
 [default]
-host=http://www.sqlpy.com
+host=http://127.0.0.1:8080
 oltps-add=%(host)s/mysqlz/oltps/add
 environments-add=%(host)s/mysqlz/environments/add
 variables-add=%(host)s/mysqlz/variables/add
 variablescores-add=%(host)s/mysqlz/variablescores/add
 oltps=oltp_insert,oltp_delete,oltp_point_select,oltp_read_only,oltp_read_write,oltp_update_index,oltp_update_non_index,oltp_write_only,select_random_points,select_random_ranges
+tunings-add=%(host)s/mysqlz/tuninglog/add
 
 [environment]
 name=2C4G500SSD

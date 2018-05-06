@@ -147,18 +147,49 @@ def variableScoresAdd(args):
         data.update({'csrfmiddlewaretoken':token})
         session.post(target_url,data=data) 
 
+def tuningScoresAdd(args):
+    """
+    """
+    logging.info("start tuningSocresAdd function ")
+    config = configparser.ConfigParser()
+    config.read(args.defaults_file)  
+    target_url=config['default']['tunings-add']
+    logging.info("use environment.name as name")
+    logging.info("target url is {}".format(target_url))
+    name = config['environment']['name']
+    data={'name':name}
+    for log_file in listLogFile(args.log_path):
+        raw_data = sysbenchLogParser(log_file)
+        data.update({'step':raw_data['variable_value'],
+                    'parallels':raw_data['parallels'],
+                    'scores':raw_data['scores']})
+        session = requests.Session()
+        r = session.get(target_url)
+        soup = bs4.BeautifulSoup(r.text,'html.parser')
+        csrfmiddlewaretoken = soup.find('input',type='hidden')
+        logging.info("{}".format(csrfmiddlewaretoken))
+        token=csrfmiddlewaretoken['value']
+        data.update({'csrfmiddlewaretoken':token})
+        r=session.post(target_url,data=data)
+        soup = bs4.BeautifulSoup(r.text,'html.parser')
+        logging.info(soup.title)
+
+
+
+
 argsToFun={
     'oltps-add': opltsAdd,
     'environments-add': environmentsAdd,
     #'variables-add': variablesAdd,
-    'variablescores-add': variableScoresAdd
+    'variablescores-add': variableScoresAdd,
+    'tuningscores-add':tuningScoresAdd,
 }    
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument('--defaults-file',default='sqlpy.cnf',help='默认配置文件./sqlpy.cnf')
     parser.add_argument('--log-path',default='/Users/jianglexing/Desktop/mysql-5.7.22',help='sysbench 日志文件所保存的路径')
-    parser.add_argument('action',choices=('oltps-add','environments-add','variablescores-add'))
+    parser.add_argument('action',choices=('oltps-add','environments-add','variablescores-add','tuningscores-add'))
     args=parser.parse_args()
     argsToFun[args.action](args)
 

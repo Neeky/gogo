@@ -18,6 +18,8 @@
       daemon_reload: yes 
 
 - hosts: sysbench
+  vars_files:
+   - ../../benchs.yaml
   vars:
    variable_name: innodb_log_file_size
    variable_value: 16M
