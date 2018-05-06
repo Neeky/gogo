@@ -1,5 +1,6 @@
 [default]
-host=http://127.0.0.1:8080
+#host=http://127.0.0.1:8080
+host=http://www.sqlpy.com
 oltps-add=%(host)s/mysqlz/oltps/add
 environments-add=%(host)s/mysqlz/environments/add
 variables-add=%(host)s/mysqlz/variables/add
@@ -8,7 +9,7 @@ oltps=oltp_insert,oltp_delete,oltp_point_select,oltp_read_only,oltp_read_write,o
 tunings-add=%(host)s/mysqlz/tuninglog/add
 
 [environment]
-name=2C4G500SSD
+name=2c4g500ssd
 os_release=centos-7.4
 memory_size_gb=4
 cpu_cores=2
